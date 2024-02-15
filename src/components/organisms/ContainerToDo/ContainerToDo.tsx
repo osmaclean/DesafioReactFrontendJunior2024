@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import './index.scss'
+import EnterYourTasks from '../../molecules/EnterYourTasks/EnterYourTasks'
 
 const ContainerToDo: React.FC = () => {
   const [isFocused, setIsFocused] = useState<boolean>(false)
@@ -23,23 +24,11 @@ const ContainerToDo: React.FC = () => {
 
   return (
     <section className='toDoContainer'>
-      <div className={`toDoContainer__box1st ${isFocused ? 'isFocus' : ''}`}>
-        <div className='inputContainer'>
-          <img 
-            className='inputContainer__buttonDown'
-            src="/imgs/down.png" 
-            alt="Button to complete all tasks"  
-            aria-label='Button to complete all tasks'
-          />
-        </div>
-        <input
-          ref={inputRef}
-          onFocus={handleChangeFocus}
-          className='toDoContainer__box1st--input'
-          type="text" 
-          placeholder='Whats needs to be done?'
-        />
-      </div>
+      <EnterYourTasks
+        isFocused={isFocused}
+        inputRef={inputRef}
+        handleChangeFocus={handleChangeFocus}
+      />
     </section>
   )
 }

@@ -2,5 +2,6 @@ import React from "react";
 
 export interface EnterYourTasksProps{
   isFocused: boolean;
-  handleFocus: () => void;
+  inputRef: React.RefObject<HTMLInputElement>;
+  handleChangeFocus: () => void;
 }
