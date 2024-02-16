@@ -1,8 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { EnterYourTasksProps } from '../../../@types'
 
 const EnterYourTasks: React.FC<EnterYourTasksProps> = ({ isFocused, inputRef, handleChangeFocus }) => {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const inputContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (inputContainerRef.current && !inputContainerRef.current.contains(event.target as Node)) {
+        setIsButtonClicked(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   const handleClick = () => {
     setIsButtonClicked(true);
@@ -10,9 +23,9 @@ const EnterYourTasks: React.FC<EnterYourTasksProps> = ({ isFocused, inputRef, ha
   
   return (
     <div className={`toDoContainer__box1st ${isFocused ? 'isFocus' : ''}`}>
-      <div className={`inputContainer ${isButtonClicked ? 'isFocus' : ''}`}>
+      <div ref={inputContainerRef} className={`inputContainer ${isButtonClicked ? 'isFocus' : ''}`}>
         <img 
-            className='inputContainer__buttonDown'
+            className={`inputContainer__buttonDown ${isButtonClicked ? 'isBrightness' : ''}`}
             src="/imgs/down.png" 
             alt="Button to complete all tasks"  
             aria-label='Button to complete all tasks'

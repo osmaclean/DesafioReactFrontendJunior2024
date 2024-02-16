@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import './index.scss'
 import EnterYourTasks from '../../molecules/EnterYourTasks/EnterYourTasks'
+import ToDo from '../../molecules/ToDo/ToDo'
+
 
 const ContainerToDo: React.FC = () => {
   const [isFocused, setIsFocused] = useState<boolean>(false)
@@ -29,6 +31,7 @@ const ContainerToDo: React.FC = () => {
         inputRef={inputRef}
         handleChangeFocus={handleChangeFocus}
       />
+      <ToDo />
     </section>
   )
 }
