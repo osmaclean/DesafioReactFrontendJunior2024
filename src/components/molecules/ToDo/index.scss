@@ -43,6 +43,7 @@
     width: 100%;
     @include flex(space-between, center, row);
     padding: .6rem .8rem;
+    display: none;
     &--count {
       font-weight: 400;
       font-size: 1rem;

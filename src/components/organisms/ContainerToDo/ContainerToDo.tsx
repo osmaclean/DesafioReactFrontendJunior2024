@@ -7,6 +7,7 @@ import ToDo from '../../molecules/ToDo/ToDo'
 const ContainerToDo: React.FC = () => {
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [isSecondBoxVisible, setIsSecondBoxVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -28,8 +29,9 @@ const ContainerToDo: React.FC = () => {
         isFocused={isFocused}
         inputRef={inputRef}
         handleChangeFocus={handleChangeFocus}
+        setSecondBoxVisibility={setIsSecondBoxVisible}
       />
-      <ToDo />
+      <ToDo isSecondBoxVisible={isSecondBoxVisible} setIsSecondBoxVisible={setIsSecondBoxVisible}/>
     </section>
   )
 }

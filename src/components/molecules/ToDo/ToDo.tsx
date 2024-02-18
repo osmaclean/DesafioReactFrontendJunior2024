@@ -3,8 +3,9 @@ import './index.scss'
 import { useAtom } from 'jotai'
 import { toDoListAtom } from '../../../states/toDoListAtom'
 import Task from '../../atoms/Task/Task'
+import { ToDoProps } from '../../../@types'
 
-const ToDo: React.FC = () => {
+const ToDo: React.FC<ToDoProps> = ({isSecondBoxVisible, setIsSecondBoxVisible}) => {
   const [todoList, setTodoList] = useAtom(toDoListAtom)
   
   const handleAddTask = (newTask: string) => {
@@ -12,8 +13,14 @@ const ToDo: React.FC = () => {
   }
 
   const handleRemoveTask = (taskToRemove: string) => {
-      setTodoList(todoList.filter((task) => task !== taskToRemove))
+      setTodoList(todoList.filter((task) => task !== taskToRemove))      
   }
+
+  useEffect(() => {
+    if (todoList.length === 0) {
+      setIsSecondBoxVisible(false);
+    }
+  }, [todoList, isSecondBoxVisible])
 
   useEffect(() => {
   }, [todoList])
@@ -26,14 +33,14 @@ const ToDo: React.FC = () => {
       {sortedTodoList.map((task, index) => ( 
           <Task 
             key={index} 
-            index={index} 
+            index={index}
             task={task} 
             onRemove={handleRemoveTask}
             onChange={(event) => handleAddTask(event.target.value)}
           />
       ))}
       <div className='divisor'></div>
-      <div className='toDoListContainer__toDoBox2nd'>
+      <div className='toDoListContainer__toDoBox2nd' style={{display: isSecondBoxVisible ? 'flex' : 'none'}}>
         <h3 className='toDoListContainer__toDoBox2nd--count'>
           {taskCount} item{taskCount === 1 ? '' : 's'} left!
         </h3>

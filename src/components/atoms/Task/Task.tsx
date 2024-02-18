@@ -1,16 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import { TasksProps } from '../../../@types'
+import { Tasks, TasksProps } from '../../../@types'
 import '../../molecules/ToDo/index.scss'
 import { useAtom } from 'jotai'
 import { toDoListAtom } from '../../../states/toDoListAtom'
+import { fetchTasks } from '../../../api/tasks.service'
 
-const Task: React.FC<TasksProps> = ({ task: initialTask, index, onRemove }) => {
+const Task: React.FC<TasksProps> = ({ 
+  task: initialTask, 
+  index, 
+  onRemove,
+}) => {
   const [task, setTask] = useState<string>(initialTask)
   const [isHover, setIsHover] = useState<boolean>(false)
   const [isHoverImage, setIsHoverImage] = useState<boolean>(false)
   const [isChecked, setIsChecked] = useState<boolean>(false)
   const [isEditing, setIsEditing] = useState<boolean>(false)
-  const [todoList, setTodoList] = useAtom<string[]>(toDoListAtom)
+  const [todoList, setTodoList] = useAtom<Tasks[]>(toDoListAtom)
+
+  useEffect(() => {
+    const fetchAndSetTasks = async () => {
+      const tasks = await fetchTasks();
+      setTodoList(tasks)
+    }
+    fetchAndSetTasks()
+  }, [])
 
   useEffect(() => {
     setTask(initialTask)

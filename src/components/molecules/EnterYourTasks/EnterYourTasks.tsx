@@ -3,7 +3,7 @@ import { EnterYourTasksProps } from '../../../@types'
 import { useAtom  } from 'jotai'
 import { toDoListAtom } from '../../../states/toDoListAtom'
 
-const EnterYourTasks: React.FC<EnterYourTasksProps> = ({ isFocused, inputRef, handleChangeFocus }) => {
+const EnterYourTasks: React.FC<EnterYourTasksProps> = ({ isFocused, inputRef, handleChangeFocus, setSecondBoxVisibility }) => {
   const [isButtonClicked, setIsButtonClicked] = useState(false)
   const inputContainerRef = useRef<HTMLDivElement>(null)
   const [todoList, setTodoList] = useAtom(toDoListAtom)
@@ -26,13 +26,14 @@ const EnterYourTasks: React.FC<EnterYourTasksProps> = ({ isFocused, inputRef, ha
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if(event.key === 'Enter') {
       const newTask = event.currentTarget.value.trim()
-
+      
       if (newTask && !todoList.includes(newTask)) {
         setTodoList([...todoList, newTask])
         event.currentTarget.value = ''
       } 
-      else alert('Tarefa vazia ou duplicada!')    
-      setIsImageVisible(true)  
+      else alert('Tarefa vazia ou duplicada!') 
+      setIsImageVisible(true)
+      setSecondBoxVisibility(true)
     }
   }
 

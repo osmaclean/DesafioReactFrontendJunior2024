@@ -1,6 +1,3 @@
 import { atom } from 'jotai'
 
-export const taskCompleteImageAtom = atom({
-  key: 'taskCompleteImage',
-  default: '/imgs/circle.png',
-})
+export const imageSrcAtom = atom(false)
