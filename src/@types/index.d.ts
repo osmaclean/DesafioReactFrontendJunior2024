@@ -8,9 +8,9 @@ export interface EnterYourTasksProps{
 }
 
 export interface TasksProps {
-  task: string;
+  task: Tasks[];
   index: number;
-  onRemove: (taskToRemove: string) => void; 
+  onRemove: (taskToRemove: Tasks) => void; 
   onChange: (event: any) => void;
 }
 
@@ -24,5 +24,3 @@ export interface Tasks {
   title: string;
   isDone: boolean;
 }
-
-export interface Tasks extends Array<Task> {}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { EnterYourTasksProps } from '../../../@types'
+import { EnterYourTasksProps, Tasks } from '../../../@types'
 import { useAtom  } from 'jotai'
 import { toDoListAtom } from '../../../states/toDoListAtom'
 

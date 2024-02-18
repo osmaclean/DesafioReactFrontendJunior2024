@@ -3,16 +3,16 @@ import './index.scss'
 import { useAtom } from 'jotai'
 import { toDoListAtom } from '../../../states/toDoListAtom'
 import Task from '../../atoms/Task/Task'
-import { ToDoProps } from '../../../@types'
+import { Tasks, ToDoProps } from '../../../@types'
 
 const ToDo: React.FC<ToDoProps> = ({isSecondBoxVisible, setIsSecondBoxVisible}) => {
   const [todoList, setTodoList] = useAtom(toDoListAtom)
   
-  const handleAddTask = (newTask: string) => {
-    if (newTask.trim() && !todoList.includes(newTask)) setTodoList([...todoList, newTask])
+  const handleAddTask = (newTask: Tasks) => {
+    if (newTask && !todoList.includes(newTask)) setTodoList([...todoList, newTask])
   }
 
-  const handleRemoveTask = (taskToRemove: string) => {
+  const handleRemoveTask = (taskToRemove: Tasks) => {
       setTodoList(todoList.filter((task) => task !== taskToRemove))      
   }
 

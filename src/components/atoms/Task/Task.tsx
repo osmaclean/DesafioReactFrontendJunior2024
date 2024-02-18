@@ -10,7 +10,7 @@ const Task: React.FC<TasksProps> = ({
   index, 
   onRemove,
 }) => {
-  const [task, setTask] = useState<string>(initialTask)
+  const [task, setTask] = useState<Tasks[]>(initialTask)
   const [isHover, setIsHover] = useState<boolean>(false)
   const [isHoverImage, setIsHoverImage] = useState<boolean>(false)
   const [isChecked, setIsChecked] = useState<boolean>(false)
@@ -19,8 +19,13 @@ const Task: React.FC<TasksProps> = ({
 
   useEffect(() => {
     const fetchAndSetTasks = async () => {
-      const tasks = await fetchTasks();
-      setTodoList(tasks)
+      try {
+        const tasks: Tasks[] = await fetchTasks()
+        console.log(tasks)
+        setTodoList(tasks)
+      } catch (error) {
+        console.error('Erro ao buscar tarefas:', error)
+      }
     }
     fetchAndSetTasks()
   }, [])
