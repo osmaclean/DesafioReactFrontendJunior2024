@@ -15,9 +15,7 @@ const ContainerToDo: React.FC = () => {
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
+    return () => document.removeEventListener('mousedown', handleClickOutside)    
   }, [])
 
   const handleChangeFocus = () => {
