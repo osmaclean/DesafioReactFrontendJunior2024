@@ -1,39 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { Tasks, TasksProps } from '../../../@types'
 import '../../molecules/ToDo/index.scss'
-import { useAtom } from 'jotai'
-import { toDoListAtom } from '../../../states/toDoListAtom'
-import { fetchTasks } from '../../../api/tasks.service'
+import { toDoListAtom } from '../../../states/toDoListAtom';
+import { useAtom } from 'jotai';
 
 const Task: React.FC<TasksProps> = ({ 
-  task: initialTask, 
-  index, 
+  id,
+  title,
+  isDone,
   onRemove,
 }) => {
-  const [task, setTask] = useState<Tasks[]>(initialTask)
   const [isHover, setIsHover] = useState<boolean>(false)
   const [isHoverImage, setIsHoverImage] = useState<boolean>(false)
-  const [isChecked, setIsChecked] = useState<boolean>(false)
+  const [isChecked, setIsChecked] = useState<boolean>(isDone)
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [todoList, setTodoList] = useAtom<Tasks[]>(toDoListAtom)
-
+  
   useEffect(() => {
-    const fetchAndSetTasks = async () => {
-      try {
-        const tasks: Tasks[] = await fetchTasks()
-        console.log(tasks)
-        setTodoList(tasks)
-      } catch (error) {
-        console.error('Erro ao buscar tarefas:', error)
-      }
-    }
-    fetchAndSetTasks()
+    console.log(todoList)
   }, [])
 
-  useEffect(() => {
-    setTask(initialTask)
-  }, [initialTask])
-  
   const handleHover = (hover: boolean) => {
     setIsHover(hover)
   }
@@ -55,15 +41,18 @@ const Task: React.FC<TasksProps> = ({
   }
 
   const handleRemove = () => {
-    onRemove(task)
+    onRemove(id)
   }
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      setTask(event.currentTarget.value)
-      setIsEditing(false)
-    }
-  }
+  // const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (event.key === 'Enter') {
+  //     const currentValue = event.currentTarget.value
+  //     setTodoList(todoList.map((task) =>
+  //     task.id === id ? { ...task, title: currentValue } : task
+  //   ))
+  //     setIsEditing(false)
+  //   }
+  // }
     
   return (
     <div className={`toDoListContainer__toDoBox1st ${isEditing ? 'editing' : ''}`} onMouseEnter={() => handleHover(true)} onMouseLeave={() => handleHover(false)}>
@@ -80,20 +69,17 @@ const Task: React.FC<TasksProps> = ({
           {isEditing ? (
             <input
               type="text"
-              defaultValue={task}
+              defaultValue={title}
               onBlur={handleBlur}
-              onChange={(event) => {
-                setTask(event.target.value)
-                let currentTask = task
-                const indexTask = todoList.indexOf(currentTask)
-                todoList[indexTask] = event.currentTarget.value
-              }}
+              // onChange={todoList.map((task) =>
+              //   task.id === id ? { ...task, title: event.currentTarget.value } : task
+              // )}
               className='toDoListContainer__toDoBox1st--input' 
-              onKeyDown={handleKeyPress}
+              // onKeyDown={handleKeyPress}
             />
           ) : (
             <div className={`toDoListContainer__toDoBox1st--inputDiv ${isChecked ? 'checked' : ''}`} onDoubleClick={handleDoubleClick}>
-              {task}
+              {title}
             </div>
           )}
           <img

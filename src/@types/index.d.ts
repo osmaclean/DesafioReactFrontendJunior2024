@@ -8,9 +8,11 @@ export interface EnterYourTasksProps{
 }
 
 export interface TasksProps {
-  task: Tasks[];
   index: number;
-  onRemove: (taskToRemove: Tasks) => void; 
+  onRemove: (id: string) => void;
+  id: string; 
+  title: string; 
+  isDone: boolean;
   onChange: (event: any) => void;
 }
 

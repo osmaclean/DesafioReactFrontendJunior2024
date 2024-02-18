@@ -26,9 +26,17 @@ const EnterYourTasks: React.FC<EnterYourTasksProps> = ({ isFocused, inputRef, ha
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if(event.key === 'Enter') {
       const newTask = event.currentTarget.value.trim()
+
+      const taskFiltered = todoList.some((element) => element.title === newTask)
       
-      if (newTask && !todoList.includes(newTask)) {
-        setTodoList([...todoList, newTask])
+      if (newTask && !taskFiltered) {
+
+        const createdNewTask = {
+          id: Math.random().toString(36).slice(2, 10),
+          title: newTask,
+          isDone: false,
+        }
+        setTodoList([...todoList, createdNewTask ])
         event.currentTarget.value = ''
       } 
       else alert('Tarefa vazia ou duplicada!') 

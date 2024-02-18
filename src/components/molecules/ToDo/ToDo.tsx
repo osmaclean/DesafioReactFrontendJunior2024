@@ -4,16 +4,29 @@ import { useAtom } from 'jotai'
 import { toDoListAtom } from '../../../states/toDoListAtom'
 import Task from '../../atoms/Task/Task'
 import { Tasks, ToDoProps } from '../../../@types'
+import { fetchTasks } from '../../../api/tasks.service'
 
 const ToDo: React.FC<ToDoProps> = ({isSecondBoxVisible, setIsSecondBoxVisible}) => {
   const [todoList, setTodoList] = useAtom(toDoListAtom)
+
+  useEffect(() => {
+    const fetchAndSetTasks = async () => {
+      try {
+        const tasks = await fetchTasks()
+        if (tasks) setTodoList(tasks)
+      } catch (error) {
+        console.error('Erro ao buscar tarefas:', error)
+      }
+    }
+    fetchAndSetTasks()
+  }, [])
   
   const handleAddTask = (newTask: Tasks) => {
     if (newTask && !todoList.includes(newTask)) setTodoList([...todoList, newTask])
   }
 
-  const handleRemoveTask = (taskToRemove: Tasks) => {
-      setTodoList(todoList.filter((task) => task !== taskToRemove))      
+  const handleRemoveTask = (id: string) => {
+      setTodoList(todoList.filter((task) => task.id !== id))      
   }
 
   useEffect(() => {
@@ -30,15 +43,17 @@ const ToDo: React.FC<ToDoProps> = ({isSecondBoxVisible, setIsSecondBoxVisible}) 
 
   return (
     <section className='toDoListContainer'>
-      {sortedTodoList.map((task, index) => ( 
+      {sortedTodoList.length > 0 ? sortedTodoList.map((task, index) => ( 
           <Task 
             key={index} 
             index={index}
-            task={task} 
+            id={task.id}
+            title={task.title}
+            isDone={task.isDone}
             onRemove={handleRemoveTask}
             onChange={(event) => handleAddTask(event.target.value)}
           />
-      ))}
+      )) : null}
       <div className='divisor'></div>
       <div className='toDoListContainer__toDoBox2nd' style={{display: isSecondBoxVisible ? 'flex' : 'none'}}>
         <h3 className='toDoListContainer__toDoBox2nd--count'>
